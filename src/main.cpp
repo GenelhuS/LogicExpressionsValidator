@@ -6,8 +6,6 @@ using namespace std;
 const char characterToCompareNot = '~';
 const char characterToCompareAnd = '&';
 const char characterToCompareOr = '|';
-//TODO: tirar esse div daqui
-const char characterToCompareDiv = '/';
 
 
 
@@ -31,8 +29,8 @@ string infixToPostfix(string logicExpression){
                 convertedExpression += actualSignalToRemove;
                 signals.pop();
             } while (actualSignalToRemove != '(');
-            //TODO: tirar o ultimo caractere da string convertida
-            //convertedExpression = convertedExpression[:-1]
+            //tirar o ultimo caractere da string convertida
+            convertedExpression.pop_back();
         }
         else if (expressionMember=='~'){
             signals.push(expressionMember);
@@ -80,31 +78,16 @@ string infixToPostfix(string logicExpression){
 
 }
     
-
-
-int main() {
-    std::string logicExpression;
-    std::string inputValues;
-
-    while (0<1){
-        std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
-        std::cin >> logicExpression;
-
-        std::cout<<("\nINSIRA OS VALORES DE ENTRADA:\n");
-        std::cin >> inputValues;
-
-        //-------Converter expressão de infixa para posfixa--------
-        logicExpression = infixToPostfix(logicExpression);
-
+bool convertedLogicExpressionSolver (string logicExpressionWithInputs){
         //--------Resolver a expressão posfixa---------
         //Inicializar a pilha vazia
         std::stack<int> expressionValues;
-        for (int i =0 ; i<= logicExpression.size(); i++){
-            if (isdigit(logicExpression[i])){
-                expressionValues.push(int(logicExpression[i]-'0'));
+        for (int i =0 ; i<= logicExpressionWithInputs.size(); i++){
+            if (isdigit(logicExpressionWithInputs[i])){
+                expressionValues.push(int(logicExpressionWithInputs[i]-'0'));
             }
             //fazer com swich case dps pra ficar + elegant
-            else if (logicExpression[i] == characterToCompareAnd){
+            else if (logicExpressionWithInputs[i] == characterToCompareAnd){
                 int firstNum = expressionValues.top();
                 expressionValues.pop();
                 int secondNum = expressionValues.top();
@@ -113,16 +96,7 @@ int main() {
                 int result = firstNum * secondNum;
                 expressionValues.push(result);
             }
-            else if (logicExpression[i] == characterToCompareDiv){
-                int firstNum = expressionValues.top();
-                expressionValues.pop();
-                int secondNum = expressionValues.top();
-                expressionValues.pop();
-
-                int result = firstNum / secondNum;
-                expressionValues.push(result);
-            }
-            else if (logicExpression[i] == characterToCompareOr){
+            else if (logicExpressionWithInputs[i] == characterToCompareOr){
                 int firstNum = expressionValues.top();
                 expressionValues.pop();
                 int secondNum = expressionValues.top();
@@ -132,7 +106,7 @@ int main() {
                 expressionValues.push(result);
 
             }
-            else if (logicExpression[i] == characterToCompareNot){
+            else if (logicExpressionWithInputs[i] == characterToCompareNot){
                 int num = expressionValues.top();
                 int result;
                 expressionValues.pop();
@@ -146,8 +120,47 @@ int main() {
                 expressionValues.push(result);
             }
         }
-        std::cout<<("\n-----VALOR DA EXPRESSAO-----\n");
-        std::cout<<(expressionValues.top());
-        std::cout<<("\n-----------------------------\n");
+        return bool(expressionValues.top());
+} 
+
+string inputInsertionInExpression (string logicExpression, string inputValues){
+    string convertedExpressionWithInputs;
+    for (int i =0 ; i<= logicExpression.size(); i++){
+        if (isalpha(logicExpression[i])){
+            char letter = logicExpression[i];
+            int num = letter - 'a' + 0;
+            convertedExpressionWithInputs = convertedExpressionWithInputs + inputValues[num];
+            
+        }
+        else {
+            convertedExpressionWithInputs = convertedExpressionWithInputs + logicExpression[i];
+        }
+    }
+    return convertedExpressionWithInputs;
+}
+
+int main() {
+    std::string logicExpression;
+    std::string inputValues;
+    std::string convertedExpressionWithInputs;
+
+    while (0<1){
+        std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
+        std::cin >> logicExpression;
+
+        std::cout<<("\nINSIRA OS VALORES DE ENTRADA:\n");
+        std::cin >> inputValues;
+
+        //-------Converter expressão de infixa para posfixa--------
+        logicExpression = infixToPostfix(logicExpression);
+
+        //-------Substituir valores de entrada na expressão--------
+        convertedExpressionWithInputs = inputInsertionInExpression(logicExpression, inputValues);
+        bool expResult = convertedLogicExpressionSolver(convertedExpressionWithInputs);
+        //resultado da funcao separada
+        std::cout<<("\n-----resultado da expressao-----\n");
+        std::cout<<(expResult);
+        std::cout<<("\n----------------------------------------------------\n");
+
     }
 }
