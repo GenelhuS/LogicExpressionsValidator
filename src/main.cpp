@@ -1,3 +1,19 @@
+//TODO: Estruturas e metodos que eu preciso implementar na mao:
+/*
+Pilha
+    -push (adicionar elemento)
+    -top (ver elemento do topo)
+    -pop (remover elemento do topo)
+    -empty (verificar se a pilha esta vazia)
+    -construtor (inicializar a pilha vazia)
+*/
+//TODO: Outras coisas que eu preciso fazer:
+/*
+    -Tratamento de erro (principalmente se tiver caracteres inesperados na string de equacao)
+    -Fazer o menu de opcoes 
+    -Separar os arquivos, criar os cabeçalhos e montar o makefile
+*/
+
 #include <iostream>
 #include <stack>
 
@@ -144,23 +160,42 @@ int main() {
     std::string inputValues;
     std::string convertedExpressionWithInputs;
 
-    while (0<1){
-        std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
-        std::cin >> logicExpression;
+    int option;
+    std::cout<<("\n-----SELECIONE A FUNCAO A SER EXECUTADA-----\n");
+    std::cout<<("1 - RESOLUCAO DE EXPRESSOES LOGICAS\n");
+    std::cout<<("2 - RESOLUCAO DE SATISFABILIDADE\n");
+    std::cin>>option;
+    std::cout<<("\nVOCE ESCOLHEU A OPCAO:");cout<<option;cout<<("\n");
 
-        std::cout<<("\nINSIRA OS VALORES DE ENTRADA:\n");
-        std::cin >> inputValues;
+    //------RESOLUÇÃO DE EXPRESSOES LOGICAS (PARTE 1 TP)-------
+    if (option==1){
+        
+        while (0<1){
+            std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
+            std::cin >> logicExpression;
 
-        //-------Converter expressão de infixa para posfixa--------
-        logicExpression = infixToPostfix(logicExpression);
+            std::cout<<("\nINSIRA OS VALORES DE ENTRADA:\n");
+            std::cin >> inputValues;
 
-        //-------Substituir valores de entrada na expressão--------
-        convertedExpressionWithInputs = inputInsertionInExpression(logicExpression, inputValues);
-        bool expResult = convertedLogicExpressionSolver(convertedExpressionWithInputs);
-        //resultado da funcao separada
-        std::cout<<("\n-----resultado da expressao-----\n");
-        std::cout<<(expResult);
-        std::cout<<("\n----------------------------------------------------\n");
+            //-------Converter expressão de infixa para posfixa--------
+            logicExpression = infixToPostfix(logicExpression);
 
+            //-------Substituir valores de entrada na expressão--------
+            convertedExpressionWithInputs = inputInsertionInExpression(logicExpression, inputValues);
+            bool expResult = convertedLogicExpressionSolver(convertedExpressionWithInputs);
+            //resultado da funcao separada
+            std::cout<<("\n-----resultado da expressao-----\n");
+            std::cout<<(expResult);
+            std::cout<<("\n----------------------------------------------------\n");
+
+        }
     }
+
+    //-------RESOLUÇÃO DE SATISFABILIDADE (PARTE 2 TP)--------
+    else if (option==2){
+        while (0<1){
+            printf("\nNOT IMPLEMENTED\n");
+        }
+    }
+
 }
