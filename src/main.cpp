@@ -16,6 +16,8 @@ Pilha
 
 #include <iostream>
 #include <stack>
+#include <set>
+#include <vector>
 
 using namespace std;
 
@@ -168,8 +170,7 @@ int main() {
     std::cout<<("\nVOCE ESCOLHEU A OPCAO:");cout<<option;cout<<("\n");
 
     //------RESOLUÇÃO DE EXPRESSOES LOGICAS (PARTE 1 TP)-------
-    if (option==1){
-        
+    if (option==1){    
         while (0<1){
             std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
             std::cin >> logicExpression;
@@ -194,8 +195,54 @@ int main() {
     //-------RESOLUÇÃO DE SATISFABILIDADE (PARTE 2 TP)--------
     else if (option==2){
         while (0<1){
-            printf("\nNOT IMPLEMENTED\n");
+            std::cout<<("\nINSIRA A EXPRESSAO LOGICA:\n");
+            std::cin >> logicExpression;
+
+            std::cout<<("\nINSIRA OS VALORES DE ENTRADA, COM O OPERADOR DE SATISFABILIDADE:\n");
+            std::cin >> inputValues;
+ 
+            set<string> inputPossibilities;
+            //buscando o operador de "para todo" e substituindo ele pelos valores 0 e 1
+
+            size_t startPos;
+            //salva todas as posições onde precisa trocar o operador de "para todo" por 0 e 1
+            vector<size_t> positions;
+            string inputValuesCopyToDestruct = inputValues;
+            do {
+                startPos = inputValuesCopyToDestruct.find("a");
+                if (startPos != std::string::npos) {
+                    positions.push_back(startPos);
+                    inputValuesCopyToDestruct.replace(startPos, 1, "W");
+                }
+            } while (startPos != std::string::npos);
+
+            //substitui o operador de "para todo" por 0 e 1
+            for (int i = 0; i < positions.size(); i++) {
+                string inputValuesCopy = inputValues;
+                inputValuesCopy[positions[i]] = '0';
+                inputPossibilities.insert(inputValuesCopy);
+                inputValuesCopy[positions[i]] = '1';
+                inputPossibilities.insert(inputValuesCopy);
+            }
+            
+            for (const std::string& element : inputPossibilities) {
+                std::cout<<("\nsaida do codigo\n");
+                std::cout << element << " ";
+            }
+            std::cout << std::endl;
+            std::cout<<("\n------------\n");
+            
+
+/*              for (int i =0 ; i<= inputValues.size(); i++){
+                if (inputValues[i]=='a'){
+                    inputPossibilities.insert();
+                }
+                else if (inputValues[i]=='e'){
+                    inputPossibilities.insert();
+                }
+                
+            } */
+            //printf("\nNOT IMPLEMENTED\n");
         }
     }
-
 }
